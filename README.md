@@ -1,2 +1,1 @@
-# gpop
-GPOP Project
+# GPOP Project
