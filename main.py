@@ -105,8 +105,8 @@ with ui.row():
     # ui.button('Task 6', on_click=lambda: (tasker.task_6(), card_label.set_content('## Population structure')))
     # ui.button('Task 7', on_click=lambda: (tasker.task_7(), card_label.set_content('## Migration')))
 
-# url = 'https://github.com/zauberzeug/nicegui/'
-# ui.button('Open GitHub', on_click=lambda: ui.navigate.to(url, new_tab=True))
+url = 'https://github.com/khnam-ng/gpop'
+ui.button('Open GitHub', on_click=lambda: ui.navigate.to(url, new_tab=True))
 
 ui.dark_mode().enable()
 ui.run(title='give me 20', favicon='🗣️')
