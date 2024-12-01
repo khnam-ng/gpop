@@ -41,7 +41,7 @@ class Tasker():
         return generations, freq
 
     def task_2_firstCoalescentEvent(self, n, N):
-        print('Task 2: Coalescent model + sample size')
+        print('Task 2: First coalescent event + sample size')
         generations = 0
         while 1:
             generations += 1
@@ -49,16 +49,52 @@ class Tasker():
             if np.random.rand() < coalescent_proba:
                 break
         return generations
-
-    def task_3(self, p, N, mutation_rate):
+    def task_2_coalescentModel(self, n, N):
+        print('Task 2: Coalescent model + sample size')
+        generations = 0
+        while n > 1:
+            generations += 1
+            coalescent_proba = n*(n-1)/(2*N)
+            if np.random.rand() < coalescent_proba:
+                n -= 1
+        return generations
+    def task_3(self, N, mutation_rate, generations):
         print('Task 3: Mutations in the infinite-allele model')
+        population = np.zeros(N, dtype=int)  #Start from an initially homogeneous population of N identical alleles
+        fixation_index = []
 
-    def task_4(self):
+        for gen in range(generations):
+            unique, counts = np.unique(population, return_counts=True)
+            freq = counts / N
+            fixation_index.append((1-mutation_rate**2)*((1/N)+(1-(1/N))*np.sum(freq ** 2)))
+
+            offspring = np.random.choice(population, size=N)
+            
+            mutations = np.random.rand(N) < mutation_rate #return True if rand < mutation_rate
+            #change values in offspring by random integers from 0 to np.sum(mutations) [like from 0 to 10], using index of True variable in mutations array to refill values in offsping array.
+            offspring[mutations] = np.random.randint(np.sum(mutations), size=np.sum(mutations)) 
+            population = offspring
+         
+        return fixation_index
+
+    def task_4(self, N, p, s, generations):
         # the selection can be fitness dependent, 
         # or mutations between parent and offspring may appear with some mutation rate.
         print('Task 4: Selection')
+        population = np.random.choice(['A', 'B'], size=N, p=[p, 1 - p])
+        freq_B = []
+        for gen in range(generations):
+            fitness = {'A': 1, 'B': 1 + s}
+            #The fitness is realized by selecting a parent allele with a probability proportional to fitness from the parent population
+            selection_proba = np.array([fitness[allele] for allele in population])
+            selection_proba /= np.sum(selection_proba)
+            
+            population = np.random.choice(population, size=N, p=selection_proba)
+            
+            freq_B.append(np.sum(population == 'B') / N)
+        return freq_B
     
-    def task_5(self, N, pA = 0.79, pB = 0.2, pC = 0.01):
+    def task_5(self, N, generations, pA = 0.79, pB = 0.2, pC = 0.01):
         print('Task 5: Clonal inference')
     
     def task_6(self):
