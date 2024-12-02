@@ -195,7 +195,7 @@ def task5(N, generations):
 def task6(p, N, generations):
     with ui.row() as task6_row:
         with ui.card().classes('w-[1300px] mx-auto'):
-            ui.markdown('## Clonal interference')
+            ui.markdown('## Population structure')
             with ui.matplotlib(figsize=(12, 6)).figure as fig:
                 ax = fig.gca()
                 freqs = tasker.task_6(p = p, N = N, generations= generations)
@@ -213,7 +213,7 @@ def task6(p, N, generations):
 def task7(p, N, generations, migration_rate):
     with ui.row() as task7_row:
         with ui.card().classes('w-[1300px] mx-auto'):
-            ui.markdown('## Clonal interference')
+            ui.markdown('## Migration')
             with ui.matplotlib(figsize=(12, 6)).figure as fig:
                 ax = fig.gca()
                 freqs = tasker.task_7(p = p, N = N, generations= generations, migration_rate= migration_rate)
