@@ -6,6 +6,7 @@ tasker = Tasker()
 simulations = 1000
 N = 100
 mutation_rate = 0.01
+migration_rate = 0.1
 
 intro = ui.markdown('''
     # **GPOP 05/12/2024** 🗣️🗣️\n
@@ -171,14 +172,70 @@ def task4(N, p, s, generations):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task4_row.delete()))
+def task5(N, generations):
+    with ui.row() as task5_row:
+        with ui.card().classes('w-[1300px] mx-auto'):
+            ui.markdown('## Clonal interference')
+            for N in [40, 100, 300, 500, 1000, 2000]:
+                with ui.matplotlib(figsize=(12, 6)).figure as fig:
+                    ax = fig.gca()
+                    freq_A, freq_B, freq_C = tasker.task_5(N = N, generations= generations)
+                    ax.plot(freq_A, label='Frequency of allele A')
+                    ax.plot(freq_B, label='Frequency of allele B')
+                    ax.plot(freq_C, label='Frequency of allele C')
+                    ax.set_ylim(ymin=-0.1, ymax=1.1)
+                    ax.set_xlim(xmin=0, xmax=generations)
+                    ax.set_xlabel(f'{generations} Generations')
+                    ax.set_ylabel('Frequencies of alleles')
+                    ax.legend()
+                    ax.set_title(f'The fraction of alleles over time + N = {N}')
+        with ui.card().classes('w-[500px] mx-auto'):
+            ui.markdown('##### Cheatsheet')
+            ui.button('mr. clean', on_click=lambda: (task5_row.delete()))
+def task6(p, N, generations):
+    with ui.row() as task6_row:
+        with ui.card().classes('w-[1300px] mx-auto'):
+            ui.markdown('## Clonal interference')
+            with ui.matplotlib(figsize=(12, 6)).figure as fig:
+                ax = fig.gca()
+                freqs = tasker.task_6(p = p, N = N, generations= generations)
+                for i in range(len(freqs)):
+                    ax.plot(freqs[i], label=f'sub-population {i}')
+                ax.set_ylim(ymin=-0.1, ymax=1.1)
+                ax.set_xlim(xmin=0, xmax=generations)
+                ax.set_xlabel(f'{generations} Generations')
+                ax.set_ylabel('Frequencies of allele A with p = 0.2')
+                ax.legend()
+                ax.set_title(f'The evolution of the population with subpopulations')
+        with ui.card().classes('w-[500px] mx-auto'):
+            ui.markdown('##### Cheatsheet')
+            ui.button('mr. clean', on_click=lambda: (task6_row.delete()))
+def task7(p, N, generations, migration_rate):
+    with ui.row() as task7_row:
+        with ui.card().classes('w-[1300px] mx-auto'):
+            ui.markdown('## Clonal interference')
+            with ui.matplotlib(figsize=(12, 6)).figure as fig:
+                ax = fig.gca()
+                freqs = tasker.task_7(p = p, N = N, generations= generations, migration_rate= migration_rate)
+                for i in range(len(freqs)):
+                    ax.plot(freqs[i], label=f'sub-population {i}')
+                ax.set_ylim(ymin=-0.1, ymax=1.1)
+                ax.set_xlim(xmin=0, xmax=generations)
+                ax.set_xlabel(f'{generations} Generations')
+                ax.set_ylabel(f'Frequencies of allele A with p = {p}')
+                ax.legend()
+                ax.set_title(f'The evolution of the population with subpopulations and migration')
+        with ui.card().classes('w-[500px] mx-auto'):
+            ui.markdown('##### Cheatsheet')
+            ui.button('mr. clean', on_click=lambda: (task7_row.delete()))
 with ui.row():
     ui.button('Task 1', on_click=lambda: (task1(p=0.2, N=N)))        
     ui.button('Task 2', on_click=lambda: (task2(N=N)))
     ui.button('Task 3', on_click=lambda: (task3(N = N, mutation_rate= mutation_rate, generations = 1000)))
     ui.button('Task 4', on_click=lambda: (task4(N=N, p=0.5, s=0.05, generations=100)))
-    # ui.button('Task 5', on_click=lambda: (tasker.task_5()))
-    # ui.button('Task 6', on_click=lambda: (tasker.task_6()))
-    # ui.button('Task 7', on_click=lambda: (tasker.task_7()))
+    ui.button('Task 5', on_click=lambda: (task5(N=N, generations=100)))
+    ui.button('Task 6', on_click=lambda: (task6(p=0.2, N=1000, generations=200)))
+    ui.button('Task 7', on_click=lambda: (task7(p=0.5, N=1000, generations=200, migration_rate=migration_rate)))
 
 url = 'https://github.com/khnam-ng/gpop'
 ui.button('Open GitHub', on_click=lambda: ui.navigate.to(url, new_tab=True))

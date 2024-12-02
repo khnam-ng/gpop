@@ -83,11 +83,11 @@ class Tasker():
         print('Task 4: Selection')
         population = np.random.choice(['A', 'B'], size=N, p=[p, 1 - p])
         freq_B = []
+        fitness = {'A': 1, 'B': 1 + s}
         for gen in range(generations):
-            fitness = {'A': 1, 'B': 1 + s}
             #The fitness is realized by selecting a parent allele with a probability proportional to fitness from the parent population
             selection_proba = np.array([fitness[allele] for allele in population])
-            selection_proba /= np.sum(selection_proba)
+            selection_proba = selection_proba/np.sum(selection_proba)
             
             population = np.random.choice(population, size=N, p=selection_proba)
             
@@ -96,16 +96,81 @@ class Tasker():
     
     def task_5(self, N, generations, pA = 0.79, pB = 0.2, pC = 0.01):
         print('Task 5: Clonal inference')
+        population = np.random.choice(['A', 'B', 'C'], size=N, p=[pA, pB, pC])
+        freq_A = []
+        freq_B = []
+        freq_C = []
+        fitness = {'A': 1, 'B': 1.05, 'C': 1.1}
+        for gen in range(generations):
+            selection_proba = np.array([fitness[allele] for allele in population])
+            selection_proba = selection_proba/np.sum(selection_proba)
+            
+            population = np.random.choice(population, size=N, p=selection_proba)
+            
+            freq_A.append(np.sum(population == 'A') / N)
+            freq_B.append(np.sum(population == 'B') / N)
+            freq_C.append(np.sum(population == 'C') / N)
+        return freq_A, freq_B, freq_C
     
-    def task_6(self):
+    def task_6(self, p, N, generations, subpops=10):
         # Divide the population of Task 1 now in 10 equally large sub-populations. Simulate the
         # system with a complete separation of the sub-populations: parents are selected only in the
         # same subpopulation, and no mutation, selection or migration exists
         print('Task 6: Population structure')
+        population = np.random.choice(['A', 'B'], size=N, p=[p, 1 - p]) #each new generation is obtained from the previous generation 2N times
+        subpop_size = N // subpops
+        sub_pops = []
 
-    def task_7(self):
+        for i in range(subpops):
+            sub_pops.append(population[i*subpop_size:i*subpop_size + subpop_size])
+        allele_freqs = [[] for i in range(subpops)]
+
+        for gen in range(generations): 
+            for i in range(subpops):
+                allele_freq_A = np.sum(sub_pops[i] == 'A') / subpop_size #Pt depends on Pt-1
+                allele_freqs[i].append(allele_freq_A)
+                
+                #choosing an allele at random
+                #Each individual in generation t+1 is a copy of a randomly selected individual in generation t.
+                sub_pops[i] = np.random.choice(sub_pops[i], size=subpop_size, replace=True)
+                
+                #fixation
+                # if allele_freq_A == 1 or allele_freq_A == 0:
+                #     break
+        return allele_freqs
+
+    def task_7(self, p, N, generations, migration_rate, subpops=10):
         # a migration of a fraction m = 0.1 of each   
         # population towards and from randomly chosen subpopulations (i.e. the subpopulations
         # exchange individuals, but remain of the same size)  
         print('Task 7: Migration')
+        population = np.random.choice(['A', 'B'], size=N, p=[p, 1 - p]) #each new generation is obtained from the previous generation 2N times
+        subpop_size = N // subpops
+        sub_pops = []
 
+        for i in range(subpops):
+            sub_pops.append(population[i*subpop_size:i*subpop_size + subpop_size])
+        allele_freqs = [[] for i in range(subpops)]
+
+        for gen in range(generations): 
+            for i in range(subpops):
+                allele_freq_A = np.sum(sub_pops[i] == 'A') / subpop_size #Pt depends on Pt-1
+                allele_freqs[i].append(allele_freq_A)
+                
+                #choosing an allele at random
+                #Each individual in generation t+1 is a copy of a randomly selected individual in generation t.
+                sub_pops[i] = np.random.choice(sub_pops[i], size=subpop_size, replace=True)
+                
+            for i in range(subpops):
+                #Define migrants
+                num_migrants = int(migration_rate * subpop_size)
+                migrants = np.random.choice(sub_pops[i], size=num_migrants, replace=False)
+                
+                #Choose sub-population
+                target = np.random.choice([j for j in range(subpops) if j != i])
+                non_migrants = np.random.choice(sub_pops[target], size=num_migrants, replace=False)
+                
+                #Exchange migrants
+                sub_pops[i][-num_migrants:] = non_migrants
+                sub_pops[target][:num_migrants] = migrants
+        return allele_freqs
