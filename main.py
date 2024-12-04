@@ -58,7 +58,7 @@ def task1(p, N):
                             $$Ne = (\frac{1}{t}\sum_{i=0}^{t-1} \frac{1}{Ni})^-1$$
                         ''', extras=['latex'])
             ui.markdown('Theoretically, with N = 100 and generations = 200, Ne ~ 100')
-            
+            ui.markdown('Genetic drift occurs in all populations of non-infinite size, but its effects are strongest in small populations')
 def task2(N):
     with ui.row() as task2_row:
         with ui.card().classes('w-[1300px] mx-auto'):
