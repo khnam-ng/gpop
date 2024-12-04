@@ -204,9 +204,9 @@ def task5(N, generations):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task5_row.delete()))
-            ui.markdown("clonal interference occurs in an asexual lineage ("clone") with a beneficial mutation. \
+            ui.markdown('clonal interference occurs in an asexual lineage ("clone") with a beneficial mutation. \
                 This mutation would be likely to get fixed if it occurred alone, but it may fail to be fixed, or even be lost, \
-                if another beneficial-mutation lineage arises in the same population; the multiple clones interfere with each other")
+                if another beneficial-mutation lineage arises in the same population; the multiple clones interfere with each other')
             ui.markdown('This typically leads to the loss of one of them,\
                  the fate of an advantageous mutation can be determined by other mutations present in the same population')
             
