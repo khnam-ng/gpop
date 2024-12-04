@@ -183,6 +183,7 @@ def task4(N, p, s, generations):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task4_row.delete()))
+            ui.markdown('fitness-increasing alleles becoming more common in the population')
 def task5(N, generations):
     with ui.row() as task5_row:
         with ui.card().classes('w-[1300px] mx-auto'):
@@ -203,6 +204,12 @@ def task5(N, generations):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task5_row.delete()))
+            ui.markdown("clonal interference occurs in an asexual lineage ("clone") with a beneficial mutation. \
+                This mutation would be likely to get fixed if it occurred alone, but it may fail to be fixed, or even be lost, \
+                if another beneficial-mutation lineage arises in the same population; the multiple clones interfere with each other")
+            ui.markdown('This typically leads to the loss of one of them,\
+                 the fate of an advantageous mutation can be determined by other mutations present in the same population')
+            
 def task6(p, N, generations):
     with ui.row() as task6_row:
         with ui.card().classes('w-[1300px] mx-auto'):
@@ -221,6 +228,8 @@ def task6(p, N, generations):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task6_row.delete()))
+            ui.markdown('For example, a barrier like a river can separate two groups of the same species and make it difficult for potential mates to cross;\
+                 if a mutation occurs, over many generations it can spread and become common in one subpopulation while being completely absent in the other')
 def task7(p, N, generations, migration_rate):
     with ui.row() as task7_row:
         with ui.card().classes('w-[1300px] mx-auto'):
@@ -239,6 +248,9 @@ def task7(p, N, generations, migration_rate):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task7_row.delete()))
+            ui.markdown('In population genetics, gene flow (also known as migration and allele flow) \
+                is the transfer of genetic material from one population to another')
+            ui.markdown('Migration changes the distribution of genetic diversity among populations, by modifying allele frequencies')
 with ui.row():
     ui.button('Task 1', on_click=lambda: (task1(p=0.2, N=int(N.value))))        
     ui.button('Task 2', on_click=lambda: (task2(N=int(N.value))))
