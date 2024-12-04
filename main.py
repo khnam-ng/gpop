@@ -4,9 +4,10 @@ from tasker import Tasker
 
 tasker = Tasker()
 simulations = 1000
-N = 100
-mutation_rate = 0.01
-migration_rate = 0.1
+# N = 100
+# mutation_rate = 0.01
+# migration_rate = 0.1
+# generations = 100
 
 intro = ui.markdown('''
     # **GPOP 05/12/2024** 🗣️🗣️\n
@@ -14,6 +15,15 @@ intro = ui.markdown('''
     */ The population evolves with constant population size and discrete non-overlapping generations.\n
     */ Each individual in generation t+1 is a copy of a randomly selected individual in generation t.\n
 ''')
+# N_input = ''
+# mutation_rate_input = ''
+# migration_rate_input = ''
+# generations_input = ''
+with ui.row() as input_buttons:
+    N = ui.number(label='input N', value=100, placeholder='wanna change value of N?',)#.bind_value_to(globals(), N)
+    mutation_rate = ui.number(label='input mutation_rate', value=0.01, placeholder='wanna change value of mutation rate?')
+    migration_rate = ui.number(label='input migration_rate', value=0.1, placeholder='wanna change value of migration rate?')
+    generations = ui.number(label='input generations', value=100, placeholder='wanna change value of generations?')
 def task1(p, N):
     with ui.row() as task1_row:
         with ui.card().classes('w-[1300px] mx-auto'):
@@ -119,6 +129,7 @@ def task2(N):
                         because the assumption n ≪ N is violated.')
 
 def task3(N, mutation_rate, generations):
+    # print(N, mutation_rate, generations)
     with ui.row() as task3_row:
         with ui.card().classes('w-[1300px] mx-auto'):
             ui.markdown('## Mutation and drift')
@@ -126,7 +137,7 @@ def task3(N, mutation_rate, generations):
                 ax = fig.gca()
                 equilibrium = 1 / (1+2*N*mutation_rate)
                 fixation = tasker.task_3(N = N, mutation_rate = mutation_rate, generations = generations)
-                print(fixation)
+                # print(fixation)
                 ax.plot(fixation, label='fixation index')
                 ax.set_ylim(ymin=0, ymax=1)
                 ax.hlines(y = equilibrium, xmin=0, xmax=generations, color='red', linestyle='--', label='Equilibrium')
@@ -229,13 +240,13 @@ def task7(p, N, generations, migration_rate):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task7_row.delete()))
 with ui.row():
-    ui.button('Task 1', on_click=lambda: (task1(p=0.2, N=N)))        
-    ui.button('Task 2', on_click=lambda: (task2(N=N)))
-    ui.button('Task 3', on_click=lambda: (task3(N = N, mutation_rate= mutation_rate, generations = 1000)))
-    ui.button('Task 4', on_click=lambda: (task4(N=N, p=0.5, s=0.05, generations=100)))
-    ui.button('Task 5', on_click=lambda: (task5(N=N, generations=100)))
-    ui.button('Task 6', on_click=lambda: (task6(p=0.2, N=1000, generations=200)))
-    ui.button('Task 7', on_click=lambda: (task7(p=0.5, N=1000, generations=200, migration_rate=migration_rate)))
+    ui.button('Task 1', on_click=lambda: (task1(p=0.2, N=int(N.value))))        
+    ui.button('Task 2', on_click=lambda: (task2(N=int(N.value))))
+    ui.button('Task 3', on_click=lambda: (task3(N = int(N.value), mutation_rate= mutation_rate.value, generations = int(generations.value)*10)))
+    ui.button('Task 4', on_click=lambda: (task4(N=int(N.value), p=0.5, s=0.05, generations=int(generations.value))))
+    ui.button('Task 5', on_click=lambda: (task5(N=int(N.value), generations=int(generations.value))))
+    ui.button('Task 6', on_click=lambda: (task6(p=0.2, N=int(N.value)*10, generations=int(generations.value)*2)))
+    ui.button('Task 7', on_click=lambda: (task7(p=0.5, N=int(N.value)*10, generations=int(generations.value)*2, migration_rate=migration_rate.value)))
 
 url = 'https://github.com/khnam-ng/gpop'
 ui.button('Open GitHub', on_click=lambda: ui.navigate.to(url, new_tab=True))
