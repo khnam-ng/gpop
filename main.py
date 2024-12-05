@@ -118,7 +118,7 @@ def task2(N):
                         That means this population has 1 allele left.')
             ui.markdown(r'''
                             Expected generations to the first coalescent event:
-                            $$E\{Tn\} = \frac{4N}{n(n-1)}$$
+                            $$E\{Tn\} = \frac{2N}{n(n-1)}$$
                             $$E\{T2\} = 100  $$
                             $$E\{T3\} = 33.34$$
                             $$E\{T4\} = 16.67$$
@@ -152,7 +152,7 @@ def task3(N, mutation_rate, generations):
             ui.button('mr. clean', on_click=lambda: (task3_row.delete()))
             ui.markdown(r'''
                             The fixation index: the value of $\mathcal{G}$ after one round of random mating and mutation
-                            $$\mathcal{G'} = (1-\mu)^2[\frac{1}{2N} + (1 - \frac{1}{2N})\mathcal{G}]$$
+                            $$\mathcal{G'} = (1-\mu)^2[\frac{1}{2} + (1 - \frac{1}{2})\mathcal{G}]$$
                         
                             With G and $\mathcal{G}$ are "almost the same" + the total frequency of homozygotes is given by:
                             $$G = \sum_{i=1}^{k}p_i^2$$
@@ -184,6 +184,9 @@ def task4(N, p, s, generations):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task4_row.delete()))
             ui.markdown('fitness-increasing alleles becoming more common in the population')
+            ui.markdown(f'pB = {p}')
+            ui.markdown('fitness ~ number of offsprings, higher fitness -> growing frequency in population\
+                         => using fitness values to set selection probability')
 def task5(N, generations):
     with ui.row() as task5_row:
         with ui.card().classes('w-[1300px] mx-auto'):
@@ -204,6 +207,13 @@ def task5(N, generations):
         with ui.card().classes('w-[500px] mx-auto'):
             ui.markdown('##### Cheatsheet')
             ui.button('mr. clean', on_click=lambda: (task5_row.delete()))
+            ui.markdown(r'''
+                        According to the lecture:
+                        $$\frac{q(t)}{p(t)} = \frac{\lambda_B}{\lambda_a}.\frac{q(0)}{(p(0)}, \
+                        assume that: \lambda_B > \lambda_A$$
+                        ''', extras=['latex'])
+            ui.markdown('This equation means frequency of allele which has higher fitness grows exponentially when compared to\
+                        frequency of small fitness allele.')
             ui.markdown('clonal interference occurs in an asexual lineage ("clone") with a beneficial mutation. \
                 This mutation would be likely to get fixed if it occurred alone, but it may fail to be fixed, or even be lost, \
                 if another beneficial-mutation lineage arises in the same population; the multiple clones interfere with each other')
@@ -251,6 +261,12 @@ def task7(p, N, generations, migration_rate):
             ui.markdown('In population genetics, gene flow (also known as migration and allele flow) \
                 is the transfer of genetic material from one population to another')
             ui.markdown('Migration changes the distribution of genetic diversity among populations, by modifying allele frequencies')
+            ui.markdown(r'''
+                        In this case, for small migration rate m << 1 and according to the equilibrium:
+                        $$F_{eq} = \frac{1}{1+2N_{e}m}$$
+                        which means $F_{eq}$ << 1 $\rightarrow{}$ little differentiation between sub-populations, \
+                        little fixation within sub-population.
+                        ''', extras=['latex'])
 with ui.row():
     ui.button('Task 1', on_click=lambda: (task1(p=0.2, N=int(N.value))))        
     ui.button('Task 2', on_click=lambda: (task2(N=int(N.value))))
